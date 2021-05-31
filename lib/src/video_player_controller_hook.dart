@@ -2,20 +2,43 @@ import 'package:flutter/widgets.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:video_player/video_player.dart';
 
-/// Constructs a [VideoPlayerController] playing a video from an asset.
-VideoPlayerController useVideoPlayerControllerAsset(
-  String dataSource, {
-  String? package,
-  Future<ClosedCaptionFile>? closedCaptionFile,
-  VideoPlayerOptions? videoPlayerOptions,
-}) {
-  return use(_VideoPlayerControllerAssetHook(
-    dataSource,
-    package: package,
-    closedCaptionFile: closedCaptionFile,
-    videoPlayerOptions: videoPlayerOptions,
-  ));
+class _VideoPlayerControllerCreator {
+  const _VideoPlayerControllerCreator();
+
+  /// Constructs a [VideoPlayerController] playing a video from an asset.
+  VideoPlayerController asset(
+    String dataSource, {
+    String? package,
+    Future<ClosedCaptionFile>? closedCaptionFile,
+    VideoPlayerOptions? videoPlayerOptions,
+  }) {
+    return use(_VideoPlayerControllerAssetHook(
+      dataSource,
+      package: package,
+      closedCaptionFile: closedCaptionFile,
+      videoPlayerOptions: videoPlayerOptions,
+    ));
+  }
+
+  /// Constructs a [VideoPlayerController] playing a video from obtained from the network.
+  VideoPlayerController network(
+    String dataSource, {
+    VideoFormat? formatHint,
+    Future<ClosedCaptionFile>? closedCaptionFile,
+    VideoPlayerOptions? videoPlayerOptions,
+    Map<String, String> httpHeaders = const {},
+  }) {
+    return use(_VideoPlayerControllerNetworkHook(
+      dataSource,
+      closedCaptionFile: closedCaptionFile,
+      videoPlayerOptions: videoPlayerOptions,
+      formatHint: formatHint,
+      httpHeaders: httpHeaders,
+    ));
+  }
 }
+
+const useVideoPlayerController = _VideoPlayerControllerCreator();
 
 class _VideoPlayerControllerAssetHook extends Hook<VideoPlayerController> {
   final String dataSource;
@@ -60,23 +83,6 @@ class _VideoPlayerControllerAssetHookState
     videoPlayerController.dispose();
     super.dispose();
   }
-}
-
-/// Constructs a [VideoPlayerController] playing a video from obtained from the network.
-VideoPlayerController useVideoPlayerControllerNetwork(
-  String dataSource, {
-  VideoFormat? formatHint,
-  Future<ClosedCaptionFile>? closedCaptionFile,
-  VideoPlayerOptions? videoPlayerOptions,
-  Map<String, String> httpHeaders = const {},
-}) {
-  return use(_VideoPlayerControllerNetworkHook(
-    dataSource,
-    closedCaptionFile: closedCaptionFile,
-    videoPlayerOptions: videoPlayerOptions,
-    formatHint: formatHint,
-    httpHeaders: httpHeaders,
-  ));
 }
 
 class _VideoPlayerControllerNetworkHook extends Hook<VideoPlayerController> {
