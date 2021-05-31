@@ -1,6 +1,6 @@
 name: chewie_hooks
 description: Flutter hooks for Chewie
-version: 0.0.1
+version: 0.0.2
 repository: https://github.com/HosseinYousefi/chewie_hooks
 
 environment:
@@ -11,12 +11,11 @@ dependencies:
   flutter:
     sdk: flutter
   chewie: ^1.1.0
-  flutter_hooks: ^0.17.0
+  flutter_hooks: ^0.16.0
   video_player: ^2.1.4
 
 dev_dependencies:
   flutter_test:
     sdk: flutter
-
 
 flutter:
