@@ -60,7 +60,7 @@ class _VideoPlayerControllerAssetHook extends Hook<VideoPlayerController> {
 
 class _VideoPlayerControllerAssetHookState
     extends HookState<VideoPlayerController, _VideoPlayerControllerAssetHook> {
-  late final VideoPlayerController videoPlayerController;
+  late VideoPlayerController videoPlayerController;
 
   @override
   void initHook() {
@@ -71,6 +71,20 @@ class _VideoPlayerControllerAssetHookState
       package: hook.package,
       videoPlayerOptions: hook.videoPlayerOptions,
     );
+  }
+
+  @override
+  void didUpdateHook(_VideoPlayerControllerAssetHook oldHook) {
+    if (oldHook.dataSource != hook.dataSource) {
+      videoPlayerController.dispose();
+      videoPlayerController = VideoPlayerController.asset(
+        hook.dataSource,
+        closedCaptionFile: hook.closedCaptionFile,
+        package: hook.package,
+        videoPlayerOptions: hook.videoPlayerOptions,
+      );
+    }
+    super.didUpdateHook(oldHook);
   }
 
   @override
@@ -119,6 +133,21 @@ class _VideoPlayerControllerNetworkHookState extends HookState<
       formatHint: hook.formatHint,
       httpHeaders: hook.httpHeaders,
     );
+  }
+
+  @override
+  void didUpdateHook(_VideoPlayerControllerNetworkHook oldHook) {
+    if (oldHook.dataSource != hook.dataSource) {
+      videoPlayerController.dispose();
+      videoPlayerController = VideoPlayerController.network(
+        hook.dataSource,
+        closedCaptionFile: hook.closedCaptionFile,
+        videoPlayerOptions: hook.videoPlayerOptions,
+        formatHint: hook.formatHint,
+        httpHeaders: hook.httpHeaders,
+      );
+    }
+    super.didUpdateHook(oldHook);
   }
 
   @override
