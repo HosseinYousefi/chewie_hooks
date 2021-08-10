@@ -197,11 +197,9 @@ class _ChewieControllerHook extends Hook<ChewieController> {
 
 class _ChewieControllerHookState
     extends HookState<ChewieController, _ChewieControllerHook> {
-  late final ChewieController chewieController;
+  late ChewieController chewieController;
 
-  @override
-  void initHook() {
-    super.initHook();
+  void _createChewieController() {
     chewieController = ChewieController(
       videoPlayerController: hook.videoPlayerController,
       allowFullScreen: hook.allowFullScreen,
@@ -233,6 +231,22 @@ class _ChewieControllerHookState
       systemOverlaysAfterFullScreen: hook.systemOverlaysAfterFullScreen,
       systemOverlaysOnEnterFullScreen: hook.systemOverlaysOnEnterFullScreen,
     );
+  }
+
+  @override
+  void initHook() {
+    super.initHook();
+    _createChewieController();
+  }
+
+  @override
+  void didUpdateHook(_ChewieControllerHook oldHook) {
+    if (oldHook.videoPlayerController.dataSource !=
+        hook.videoPlayerController.dataSource) {
+      chewieController.dispose();
+      _createChewieController();
+    }
+    super.didUpdateHook(oldHook);
   }
 
   @override
