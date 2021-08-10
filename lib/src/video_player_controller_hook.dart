@@ -121,7 +121,7 @@ class _VideoPlayerControllerNetworkHook extends Hook<VideoPlayerController> {
 
 class _VideoPlayerControllerNetworkHookState extends HookState<
     VideoPlayerController, _VideoPlayerControllerNetworkHook> {
-  late final VideoPlayerController videoPlayerController;
+  late VideoPlayerController videoPlayerController;
 
   @override
   void initHook() {
