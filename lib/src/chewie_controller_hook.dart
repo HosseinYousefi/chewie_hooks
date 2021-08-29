@@ -34,6 +34,7 @@ ChewieController useChewieController({
   List<DeviceOrientation> deviceOrientationsAfterFullScreen =
       DeviceOrientation.values,
   ChewieRoutePageBuilder? routePageBuilder,
+  List<Object?>? keys,
 }) {
   return use(_ChewieControllerHook(
     videoPlayerController: videoPlayerController,
@@ -64,6 +65,7 @@ ChewieController useChewieController({
     subtitleBuilder: subtitleBuilder,
     systemOverlaysAfterFullScreen: systemOverlaysAfterFullScreen,
     systemOverlaysOnEnterFullScreen: systemOverlaysOnEnterFullScreen,
+    keys: keys,
   ));
 }
 
@@ -188,7 +190,8 @@ class _ChewieControllerHook extends Hook<ChewieController> {
     this.systemOverlaysAfterFullScreen = SystemUiOverlay.values,
     this.deviceOrientationsAfterFullScreen = DeviceOrientation.values,
     this.routePageBuilder,
-  });
+    List<Object?>? keys,
+  }) : super(keys: keys);
 
   @override
   HookState<ChewieController, Hook<ChewieController>> createState() =>

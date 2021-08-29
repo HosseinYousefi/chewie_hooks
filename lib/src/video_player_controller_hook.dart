@@ -11,12 +11,14 @@ class _VideoPlayerControllerCreator {
     String? package,
     Future<ClosedCaptionFile>? closedCaptionFile,
     VideoPlayerOptions? videoPlayerOptions,
+    List<Object?>? keys,
   }) {
     return use(_VideoPlayerControllerAssetHook(
       dataSource,
       package: package,
       closedCaptionFile: closedCaptionFile,
       videoPlayerOptions: videoPlayerOptions,
+      keys: keys,
     ));
   }
 
@@ -27,6 +29,7 @@ class _VideoPlayerControllerCreator {
     Future<ClosedCaptionFile>? closedCaptionFile,
     VideoPlayerOptions? videoPlayerOptions,
     Map<String, String> httpHeaders = const {},
+    List<Object?>? keys,
   }) {
     return use(_VideoPlayerControllerNetworkHook(
       dataSource,
@@ -34,6 +37,7 @@ class _VideoPlayerControllerCreator {
       videoPlayerOptions: videoPlayerOptions,
       formatHint: formatHint,
       httpHeaders: httpHeaders,
+      keys: keys,
     ));
   }
 }
@@ -51,7 +55,8 @@ class _VideoPlayerControllerAssetHook extends Hook<VideoPlayerController> {
     this.package,
     this.closedCaptionFile,
     this.videoPlayerOptions,
-  });
+    List<Object?>? keys,
+  }) : super(keys: keys);
 
   @override
   HookState<VideoPlayerController, Hook<VideoPlayerController>> createState() =>
@@ -112,7 +117,8 @@ class _VideoPlayerControllerNetworkHook extends Hook<VideoPlayerController> {
     this.videoPlayerOptions,
     this.formatHint,
     this.httpHeaders = const {},
-  });
+    List<Object?>? keys,
+  }) : super(keys: keys);
 
   @override
   HookState<VideoPlayerController, Hook<VideoPlayerController>> createState() =>
